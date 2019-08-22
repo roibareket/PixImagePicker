@@ -119,7 +119,7 @@ public class InstantImageAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         return list.size();
     }
 
-    public class Holder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
+    public class Holder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private ImageView preview;
         private ImageView selection;
 
@@ -129,20 +129,12 @@ public class InstantImageAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             preview = itemView.findViewById(R.id.preview);
             selection = itemView.findViewById(R.id.selection);
             itemView.setOnClickListener(this);
-            itemView.setOnLongClickListener(this);
         }
 
         @Override
         public void onClick(View view) {
             int id = this.getLayoutPosition();
-            onSelectionListener.onClick(list.get(id), view, id);
-        }
-
-        @Override
-        public boolean onLongClick(View view) {
-            int id = this.getLayoutPosition();
             onSelectionListener.onLongClick(list.get(id), view, id);
-            return true;
         }
     }
 
