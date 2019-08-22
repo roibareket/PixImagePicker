@@ -180,9 +180,7 @@ public class Utility {
       recyclerView.setVisibility(View.VISIBLE);
       status_bar_bg.animate().translationY(0).setDuration(300).start();
       topbar.setVisibility(View.VISIBLE);
-      Utility.showStatusBar(activity);
     } else if (recyclerView.getVisibility() == View.VISIBLE && (slideOffset) == 0) {
-      Utility.hideStatusBar(activity);
       recyclerView.setVisibility(View.INVISIBLE);
       topbar.setVisibility(View.GONE);
       status_bar_bg.animate().translationY(-(status_bar_bg.getHeight())).setDuration(300).start();
