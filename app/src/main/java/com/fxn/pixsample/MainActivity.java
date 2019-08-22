@@ -31,11 +31,12 @@ public class MainActivity extends AppCompatActivity {
         myAdapter = new MyAdapter(this);
         options = Options.init()
                 .setRequestCode(100)
-                .setCount(3)
-            .setFrontfacing(false)
-            .setImageQuality(ImageQuality.LOW)
-            .setPreSelectedUrls(returnValue)
-            .setScreenOrientation(Options.SCREEN_ORIENTATION_PORTRAIT)
+                .setCount(30)
+                .setFrontfacing(false)
+                .setImageQuality(ImageQuality.LOW)
+                .setPreSelectedUrls(returnValue)
+                .setForceLongSelection(true)
+                .setScreenOrientation(Options.SCREEN_ORIENTATION_PORTRAIT)
                 .setPath("/akshay/new")
         ;
         recyclerView.setAdapter(myAdapter);

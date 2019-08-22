@@ -14,6 +14,7 @@ public class Options implements Serializable {
     private int imageQuality = 40;
     private int height = 0, width = 0;
     private boolean frontfacing = false;
+    private boolean forceLongSelection = false;
     public static final int SCREEN_ORIENTATION_UNSET = -2;
     public static final int SCREEN_ORIENTATION_UNSPECIFIED = -1;
     public static final int SCREEN_ORIENTATION_LANDSCAPE = 0;
@@ -91,6 +92,15 @@ public class Options implements Serializable {
 
     public Options setFrontfacing(boolean frontfacing) {
         this.frontfacing = frontfacing;
+        return this;
+    }
+
+    public boolean isForceLongSelection() {
+        return this.forceLongSelection;
+    }
+
+    public Options setForceLongSelection(boolean forceLongSelection) {
+        this.forceLongSelection = forceLongSelection;
         return this;
     }
 

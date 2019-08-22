@@ -148,7 +148,7 @@ public class Pix extends AppCompatActivity implements View.OnTouchListener {
   private OnSelectionListener onSelectionListener = new OnSelectionListener() {
     @Override
     public void onClick(Img img, View view, int position) {
-      if (LongSelection) {
+      if (LongSelection || options.isForceLongSelection()) {
         if (selectionList.contains(img)) {
           selectionList.remove(img);
           initaliseadapter.select(false, position);
@@ -203,7 +203,7 @@ public class Pix extends AppCompatActivity implements View.OnTouchListener {
       } else {
         img.setPosition(position);
         selectionList.add(img);
-        returnObjects();
+        returnObjectsIfDone();
         DrawableCompat.setTint(selection_back.getDrawable(), colorPrimaryDark);
         topbar.setBackgroundColor(Color.parseColor("#ffffff"));
       }
@@ -338,6 +338,12 @@ public class Pix extends AppCompatActivity implements View.OnTouchListener {
             mScrollbarAnimator = null;
           }
         });
+  }
+
+  public void returnObjectsIfDone(){
+    if(!options.isForceLongSelection()){
+      returnObjects();
+    }
   }
 
   public void returnObjects() {
@@ -524,7 +530,7 @@ public class Pix extends AppCompatActivity implements View.OnTouchListener {
                 selectionList.add(img);
                 Utility.scanPhoto(Pix.this, photo);
                 Log.e("click time", "--------------------------------2");
-                returnObjects();
+                returnObjectsIfDone();
               }
             }
             return null;
@@ -537,7 +543,7 @@ public class Pix extends AppCompatActivity implements View.OnTouchListener {
       public void onClick(View view) {
         // Toast.makeText(Pix.this, "fin", Toast.LENGTH_SHORT).show();
         //Log.e("Hello", "onclick");
-        returnObjects();
+        returnObjectsIfDone();
       }
     });
     sendButton.setOnClickListener(new View.OnClickListener() {
