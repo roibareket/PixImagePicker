@@ -134,7 +134,7 @@ public class InstantImageAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         @Override
         public void onClick(View view) {
             int id = this.getLayoutPosition();
-            onSelectionListener.onLongClick(list.get(id), view, id);
+            onSelectionListener.onLongClick(list.get(id),id);
         }
     }
 

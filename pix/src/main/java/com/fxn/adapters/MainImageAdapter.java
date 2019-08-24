@@ -177,13 +177,13 @@ public class MainImageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         @Override
         public void onClick(View view) {
             int id = this.getLayoutPosition();
-            onSelectionListener.onClick(list.get(id), view, id);
+            onSelectionListener.onLongClick(list.get(id), id);
         }
 
         @Override
         public boolean onLongClick(View view) {
             int id = this.getLayoutPosition();
-            onSelectionListener.onLongClick(list.get(id), view, id);
+            onSelectionListener.onLongClick(list.get(id), id);
             return true;
         }
     }
