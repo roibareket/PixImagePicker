@@ -3,6 +3,7 @@ package com.fxn.adapters;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,13 +36,7 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        //Uri imageUri = Uri.fromFile(new File(list.get(position)));// For files on device
-        //Log.e("hello", "- " + imageUri.toString());
-        File f = new File(list.get(position));
-        Bitmap d = new BitmapDrawable(context.getResources(), f.getAbsolutePath()).getBitmap();
-        /*Bitmap scaled = com.fxn.utility.Utility.getScaledBitmap(
-            500f, com.fxn.utility.Utility.rotate(d,list.get(position).getOrientation()));*/
-        ((Holder) holder).iv.setImageBitmap(d);
+        ((Holder) holder).iv.setImageURI(Uri.parse(list.get(position)));
     }
 
     @Override
