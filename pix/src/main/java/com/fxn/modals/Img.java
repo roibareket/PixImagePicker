@@ -9,15 +9,13 @@ import java.io.Serializable;
 public class Img implements Serializable {
     private String headerDate;
     private String contentUrl;
-    private String url;
     private Boolean isSelected;
     private String scrollerDate;
     private int position;
 
-    public Img(String headerDate, String contentUrl, String url, String scrollerDate) {
+    public Img(String headerDate, String contentUrl, String scrollerDate) {
         this.headerDate = headerDate;
         this.contentUrl = contentUrl;
-        this.url = url;
         this.isSelected = false;
         this.scrollerDate = scrollerDate;
     }
@@ -44,14 +42,6 @@ public class Img implements Serializable {
 
     public void setContentUrl(String contentUrl) {
         this.contentUrl = contentUrl;
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
     }
 
     public Boolean getSelected() {

@@ -52,7 +52,6 @@ public class ImageFetcher extends AsyncTask<Cursor, Void, ImageFetcher.ModelList
         try {
             if (cursor != null) {
                 int date = cursor.getColumnIndex(MediaStore.Images.Media.DATE_TAKEN);
-                int data = cursor.getColumnIndex(MediaStore.Images.Media.DATA);
                 int contentUrl = cursor.getColumnIndex(MediaStore.Images.Media._ID);
 
                 int limit = 100;
@@ -74,11 +73,11 @@ public class ImageFetcher extends AsyncTask<Cursor, Void, ImageFetcher.ModelList
                         if (!header.equalsIgnoreCase("" + dateDifference)) {
                             header = "" + dateDifference;
                             pos += 1;
-                            LIST.add(new Img("" + dateDifference, "", "", ""));
+                            LIST.add(new Img("" + dateDifference, "", ""));
                         }
-                        Img img = new Img("" + header, "" + path, cursor.getString(data), "" + pos);
+                        Img img = new Img("" + header, "" + path, "" + pos);
                         img.setPosition(pos);
-                        if (preSelectedUrls.contains(img.getUrl())) {
+                        if (preSelectedUrls.contains(img.getContentUrl())) {
                             img.setSelected(true);
                             selectionList.add(img);
                         }

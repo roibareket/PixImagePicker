@@ -22,6 +22,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.res.ResourcesCompat;
@@ -46,6 +47,12 @@ import com.fxn.utility.Utility;
 import com.fxn.utility.ui.FastScrollStateChangeListener;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 
+import org.jetbrains.annotations.NotNull;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Calendar;
+
 import io.fotoapparat.Fotoapparat;
 import io.fotoapparat.configuration.CameraConfiguration;
 import io.fotoapparat.error.CameraErrorListener;
@@ -56,17 +63,8 @@ import io.fotoapparat.selector.FlashSelectorsKt;
 import io.fotoapparat.selector.LensPositionSelectorsKt;
 import io.fotoapparat.view.CameraView;
 import io.fotoapparat.view.FocusView;
-
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.HashSet;
-import java.util.Set;
-
 import kotlin.Unit;
 import kotlin.jvm.functions.Function1;
-
-import org.jetbrains.annotations.NotNull;
 
 public class Pix extends AppCompatActivity implements View.OnTouchListener {
 
@@ -527,10 +525,12 @@ public class Pix extends AppCompatActivity implements View.OnTouchListener {
                             synchronized (bitmap) {
                                 Utility.vibe(Pix.this, 50);
                                 File photo =
-                                        Utility.writeImage(bitmap, options.getPath(), options.getImageQuality(),
+                                        Utility.writeImage(getApplicationContext(), bitmap, options.getPath(), options.getImageQuality(),
                                                 options.getWidth(), options.getHeight());
-                                Img img = new Img("", "", photo.getAbsolutePath(), "");
-                selectionList.add(img);
+
+                                Img img = new Img("", Uri.fromFile(new File(photo.getAbsolutePath())).toString(), "");
+                                img.setSelected(true);
+                                selectionList.add(img);
                                 Utility.scanPhoto(Pix.this, photo);
                                 Log.e("click time", "--------------------------------2");
                                 onImageCaptured(img);
@@ -629,19 +629,26 @@ public class Pix extends AppCompatActivity implements View.OnTouchListener {
     }
 
     private void onImageCaptured(final Img img) {
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                ArrayList<Img> oldSelection = new ArrayList<>(selectionList);
-                updateImages();
+        mainImageAdapter.addImage(0, img);
+        initaliseadapter.addImage(0, img);
 
-                for(Img oldSelectedImg : oldSelection){
-                    Img img = getImgByUrl(mainImageAdapter.getItemList(), oldSelectedImg.getUrl());
-                    onSelectionListener.onLongClick(img, img.getPosition());
-                }
-                instantRecyclerView.smoothScrollToPosition(0);
-            }
-        }, 500);
+        if (selectionList.size() > 0 && sendButton.getVisibility() == View.GONE) {
+            LongSelection = true;
+            sendButton.setVisibility(View.VISIBLE);
+            Animation anim = new ScaleAnimation(
+                    0f, 1f, // Start and end values for the X axis scaling
+                    0f, 1f, // Start and end values for the Y axis scaling
+                    Animation.RELATIVE_TO_SELF, 0.5f, // Pivot point of X scaling
+                    Animation.RELATIVE_TO_SELF, 0.5f); // Pivot point of Y scaling
+            anim.setFillAfter(true); // Needed to keep the result of the animation
+            anim.setDuration(300);
+            sendButton.startAnimation(anim);
+            topbar.setBackgroundColor(colorPrimaryDark);
+            selection_count.setText(
+                    getResources().getString(R.string.pix_selected) + " " + selectionList.size());
+            img_count.setText(String.valueOf(selectionList.size()));
+            DrawableCompat.setTint(selection_back.getDrawable(), Color.parseColor("#ffffff"));
+        }
     }
 
     private void updateImages() {
@@ -659,7 +666,6 @@ public class Pix extends AppCompatActivity implements View.OnTouchListener {
             limit = cursor.getCount() - 1;
         }
         int date = cursor.getColumnIndex(MediaStore.Images.Media.DATE_TAKEN);
-        int data = cursor.getColumnIndex(MediaStore.Images.Media.DATA);
         int contentUrl = cursor.getColumnIndex(MediaStore.Images.Media._ID);
         Calendar calendar;
         int pos = 0;
@@ -673,11 +679,11 @@ public class Pix extends AppCompatActivity implements View.OnTouchListener {
             if (!header.equalsIgnoreCase("" + dateDifference)) {
                 header = "" + dateDifference;
                 pos += 1;
-                INSTANTLIST.add(new Img("" + dateDifference, "", "", ""));
+                INSTANTLIST.add(new Img("" + dateDifference, "", ""));
             }
-            Img img = new Img("" + header, "" + path, cursor.getString(data), "" + pos);
+            Img img = new Img("" + header, "" + path, "" + pos);
             img.setPosition(pos);
-            if (options.getPreSelectedUrls().contains(img.getUrl())) {
+            if (options.getPreSelectedUrls().contains(img.getContentUrl())) {
                 img.setSelected(true);
                 selectionList.add(img);
             }
@@ -738,8 +744,8 @@ public class Pix extends AppCompatActivity implements View.OnTouchListener {
     }
 
     private Img getImgByUrl(ArrayList<Img> imgList, String url) {
-        for(Img img : imgList){
-            if(img.getUrl().equals(url)){
+        for (Img img : imgList) {
+            if (img.getContentUrl().equals(url)) {
                 return img;
             }
         }

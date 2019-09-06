@@ -31,6 +31,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
+import static android.os.Environment.DIRECTORY_PICTURES;
+
 /**
  * Created by akshay on 21/01/18.
  */
@@ -197,9 +199,9 @@ public class Utility {
     ((Vibrator) c.getSystemService(Context.VIBRATOR_SERVICE)).vibrate(l);
   }
 
-  public static File writeImage(Bitmap bitmap, String path, int quality, int newWidth,
+  public static File writeImage(Context context, Bitmap bitmap, String path, int quality, int newWidth,
       int newHeight) {
-    File dir = new File(Environment.getExternalStorageDirectory(), path);
+    File dir = new File(context.getExternalFilesDir(DIRECTORY_PICTURES), path);
     if (!dir.exists()) {
       dir.mkdirs();
     }

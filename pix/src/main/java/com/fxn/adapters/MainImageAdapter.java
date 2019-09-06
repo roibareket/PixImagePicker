@@ -56,7 +56,11 @@ public class MainImageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     }
 
     public MainImageAdapter addImage(Img image) {
-        list.add(image);
+        return addImage(list.size() - 1, image);
+    }
+
+    public MainImageAdapter addImage(int index, Img image) {
+        list.add(index, image);
         notifyDataSetChanged();
         return this;
     }

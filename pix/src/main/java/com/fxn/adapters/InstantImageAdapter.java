@@ -48,7 +48,11 @@ public class InstantImageAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     }
 
     public InstantImageAdapter addImage(Img image) {
-        list.add(image);
+        return addImage(list.size() - 1, image);
+    }
+
+    public InstantImageAdapter addImage(int index, Img image) {
+        list.add(index, image);
         notifyDataSetChanged();
         return this;
     }
