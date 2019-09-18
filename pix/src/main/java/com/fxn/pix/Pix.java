@@ -644,11 +644,11 @@ public class Pix extends AppCompatActivity implements View.OnTouchListener {
             anim.setDuration(300);
             sendButton.startAnimation(anim);
             topbar.setBackgroundColor(colorPrimaryDark);
-            selection_count.setText(
-                    getResources().getString(R.string.pix_selected) + " " + selectionList.size());
-            img_count.setText(String.valueOf(selectionList.size()));
             DrawableCompat.setTint(selection_back.getDrawable(), Color.parseColor("#ffffff"));
         }
+        selection_count.setText(
+                getResources().getString(R.string.pix_selected) + " " + selectionList.size());
+        img_count.setText(String.valueOf(selectionList.size()));
     }
 
     private void updateImages() {
@@ -728,11 +728,11 @@ public class Pix extends AppCompatActivity implements View.OnTouchListener {
                     anim.setDuration(300);
                     sendButton.startAnimation(anim);
                     topbar.setBackgroundColor(colorPrimaryDark);
-                    selection_count.setText(
-                            getResources().getString(R.string.pix_selected) + " " + selectionList.size());
-                    img_count.setText(String.valueOf(selectionList.size()));
                     DrawableCompat.setTint(selection_back.getDrawable(), Color.parseColor("#ffffff"));
                 }
+                selection_count.setText(
+                        getResources().getString(R.string.pix_selected) + " " + selectionList.size());
+                img_count.setText(String.valueOf(selectionList.size()));
             }
         };
         imageFetcher.setStartingCount(pos);
